@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ポーカー配信者企画書</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #2a5298;
+            font-size: 1.4em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-top: 15px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .warning {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        .success {
+            background: #d4edda;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table th {
+            background: #1e3c72;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .flow-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .flow-step {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .flow-step::before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            color: #667eea;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .flow-container {
+            counter-reset: step-counter;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 5px 5px 5px 0;
+        }
+
+        footer {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>USDT / GGドル 交換業務マニュアル</h1>
+            <p>PayPay と GGPoker P2P を使った安全な両替フロー</p>
+        </header>
+
+        <div class="content">
+            <!-- セクション1: 概要 -->
+            <section>
+                <h2>1. 業務の概要</h2>
+                <p>
+                    本ページは、<strong>日本円 ⇔ GGドル（USDT相当）交換業務</strong>を、スタッフ全員が同じ手順で安全に運用するためのマニュアルです。<br>
+                    日本円は <strong>PayPay</strong>、GGドルは <strong>GGPoker の P2P 送金機能</strong>を利用して取引します。
+                </p>
+
+                <div class="highlight">
+                    <strong>収益の仕組み：</strong><br>
+                    Google 為替レートを基準に、<strong>購入時は上乗せ・出金時は差し引き</strong>した独自レートを設定し、<br>
+                    その差額（スプレッド）が運営の収益となります。
+                </div>
+
+                <div class="warning">
+                    <strong>重要：</strong> すべての取引は <strong>同日の提示レート</strong> を必ず使い、<br>
+                    その日の途中で勝手にレートを変えないようにしてください。
+                </div>
+            </section>
+
+            <!-- セクション2: 当日のレート設定 -->
+            <section>
+                <h2>2. 取引開始前のレート設定（毎日必須）</h2>
+
+                <h3>2-1. Google 為替レートの確認</h3>
+                <p>Google で「USD JPY」などと検索し、<strong>1USD あたりのレート</strong>を確認します。</p>
+
+                <div class="comparison-table-wrapper">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>項目</th>
+                                <th>例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Google 為替レート</td>
+                                <td>1USD = 155円</td>
+                            </tr>
+                            <tr>
+                                <td>購入提示レート（ユーザーがGGドルを買う）</td>
+                                <td>155円 + 6円 = <strong>161円</strong></td>
+                            </tr>
+                            <tr>
+                                <td>出金提示レート（ユーザーがGGドルを売る）</td>
+                                <td>155円 − 9円 = <strong>146円</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="success">
+                    <h3>2-2. 「当日の提示レート」を決める</h3>
+                    <ul>
+                        <li><strong>購入レート：</strong> 1USD = 161円</li>
+                        <li><strong>出金レート：</strong> 1USD = 146円</li>
+                        <li>その日の取引は、<strong>必ずこのレートで一貫して計算</strong>する</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- セクション3: 購入フロー -->
+            <section>
+                <h2>3. 購入フロー（ユーザーが GGドルを購入する）</h2>
+
+                <div class="flow-diagram">
+                    <h3>3-1. 全体の流れ</h3>
+                    <div class="flow-container">
+                        <div class="flow-step">
+                            <strong>① ユーザー情報の取得</strong><br>
+                            GGID・登録メールアドレス・PayPay ID・購入希望ドル額をヒアリング。
+                        </div>
+                        <div class="flow-step">
+                            <strong>② 日本円換算額の提示</strong><br>
+                            当日の「購入レート」で日本円金額を計算し、ユーザーに案内。
+                        </div>
+                        <div class="flow-step">
+                            <strong>③ 日本円入金の確認</strong><br>
+                            PayPay での着金を必ず確認してから、次へ進む。
+                        </div>
+                        <div class="flow-step">
+                            <strong>④ GGドル送金</strong><br>
+                            GGPoker の P2P 機能で、ユーザー GGID にドルを送金。
+                        </div>
+                        <div class="flow-step">
+                            <strong>⑤ 取引記録</strong><br>
+                            スプレッドシートに必ず記録する。
+                        </div>
+                    </div>
+                </div>
+
+                <h3>3-2. 日本円換算額の計算例</h3>
+                <div class="highlight">
+                    <ul>
+                        <li><strong>ユーザー希望：</strong> $100 購入</li>
+                        <li><strong>当日の購入レート：</strong> 1USD = 162円（例）</li>
+                        <li><strong>計算：</strong> 100 × 162 = <strong>16,200円</strong></li>
+                    </ul>
+                    <p>
+                        ユーザーへの案内文の例：<br>
+                        「<strong>16,200円を PayPay にて送金してください。</strong>」
+                    </p>
+                </div>
+
+                <h3>3-3. 入金確認〜GGドル送金</h3>
+                <ul>
+                    <li>ユーザーへ <strong>PayPay ID または QR コード</strong>を送付する。</li>
+                    <li>PayPay に <strong>16,200円が着金したことを必ず確認</strong>する。</li>
+                    <li>着金後、GGPoker の P2P 機能で、ユーザーの <strong>GGID へ $100</strong> を送金する。</li>
+                </ul>
+
+                <div class="warning">
+                    <strong>禁止事項：</strong><br>
+                    日本円の着金前に GGドルを送るのは絶対にNGです。<br>
+                    「PayPay 入金確認 → GGドル送金」の順番を必ず守ってください。
+                </div>
+
+                <h3>3-4. スプレッドシートへの記録（購入）</h3>
+                <p>購入取引ごとに、以下をスプレッドシートへ記入します。</p>
+                <ul>
+                    <li>日付</li>
+                    <li>ユーザー名</li>
+                    <li>GGID</li>
+                    <li>取引種別：<strong>購入</strong></li>
+                    <li>ドル額（例：100）</li>
+                    <li>Google 為替レート（例：155）</li>
+                    <li>手数料（例：+6）</li>
+                    <li>提示レート（例：162）</li>
+                    <li>日本円受取額（例：16,200）</li>
+                </ul>
+            </section>
+
+            <!-- セクション4: 出金フロー -->
+            <section>
+                <h2>4. 出金フロー（ユーザーが GGドルを売却する）</h2>
+
+                <div class="flow-diagram">
+                    <h3>4-1. 全体の流れ</h3>
+                    <div class="flow-container">
+                        <div class="flow-step">
+                            <strong>① ユーザー情報の取得</strong><br>
+                            GGID・登録メールアドレス・PayPay ID・出金希望ドル額をヒアリング。
+                        </div>
+                        <div class="flow-step">
+                            <strong>② 日本円換算額の提示</strong><br>
+                            当日の「出金レート」で日本円金額を計算し、ユーザーに案内。
+                        </div>
+                        <div class="flow-step">
+                            <strong>③ GGドルの受取確認</strong><br>
+                            指定 GGID への P2P 着金を確認。
+                        </div>
+                        <div class="flow-step">
+                            <strong>④ 日本円送金</strong><br>
+                            PayPay でユーザーへ日本円を送金。
+                        </div>
+                        <div class="flow-step">
+                            <strong>⑤ 取引記録</strong><br>
+                            スプレッドシートに必ず記録する。
+                        </div>
+                    </div>
+                </div>
+
+                <h3>4-2. 日本円換算額の計算例</h3>
+                <div class="highlight">
+                    <ul>
+                        <li><strong>ユーザー希望：</strong> $100 出金</li>
+                        <li><strong>当日の出金レート：</strong> 1USD = 146円（例）</li>
+                        <li><strong>計算：</strong> 100 × 146 = <strong>14,600円</strong></li>
+                    </ul>
+                    <p>
+                        ユーザーへの案内文の例：<br>
+                        「<strong>$100 をこちらの GGID へ送金してください。</strong>」
+                    </p>
+                </div>
+
+                <h3>4-3. GGドル受取〜日本円送金</h3>
+                <ul>
+                    <li>こちらの <strong>運営 GGID</strong> をユーザーへ案内。</li>
+                    <li>ユーザーから P2P にて <strong>$100</strong> が送金される。</li>
+                    <li>GGPoker 上で <strong>GGドルの着金を必ず確認</strong>する。</li>
+                    <li>着金を確認したら、PayPay にて <strong>14,600円</strong> をユーザーの PayPay へ送金する。</li>
+                </ul>
+
+                <div class="warning">
+                    <strong>禁止事項：</strong><br>
+                    GGドルの着金前に日本円を送るのは絶対にNGです。<br>
+                    「GGドル着金確認 → 日本円送金」の順番を必ず守ってください。
+                </div>
+
+                <h3>4-4. スプレッドシートへの記録（出金）</h3>
+                <p>出金取引ごとに、以下をスプレッドシートへ記入します。</p>
+                <ul>
+                    <li>日付</li>
+                    <li>ユーザー名</li>
+                    <li>GGID</li>
+                    <li>取引種別：<strong>出金</strong></li>
+                    <li>ドル額（例：100）</li>
+                    <li>Google 為替レート（例：155）</li>
+                    <li>手数料（例：−9）</li>
+                    <li>提示レート（例：146）</li>
+                    <li>日本円支払額（例：14,600）</li>
+                </ul>
+            </section>
+
+            <!-- セクション5: 記録・管理ルール -->
+            <section>
+                <h2>5. 記録・管理ルール（スプレッドシート）</h2>
+                <div class="highlight">
+                    <strong>基本ルール：</strong><br>
+                    1件でも漏れなく、<strong>すべての取引を同じスプレッドシートに記録</strong>します。<br>
+                    「いつ・誰に・いくら・どのレートで」行ったかが後から追える状態にしておくことが重要です。
+                </div>
+
+                <h3>5-1. 記録すべき項目</h3>
+                <ul>
+                    <li>日付</li>
+                    <li>ユーザー名</li>
+                    <li>GGID</li>
+                    <li>取引種別（購入 / 出金）</li>
+                    <li>ドル額</li>
+                    <li>Google 為替レート</li>
+                    <li>手数料（＋ or −）</li>
+                    <li>提示レート</li>
+                    <li>日本円受取額 or 日本円支払額</li>
+                </ul>
+
+                <div class="success">
+                    <strong>ポイント：</strong><br>
+                    ・<strong>Google レートと提示レート</strong>を両方残すことで、後から利益計算がしやすくなります。<br>
+                    ・ユーザー名と GGID をセットで必ず記録し、後から本人確認できるようにします。
+                </div>
+            </section>
+
+            <!-- セクション6: 重要ルール（リスク管理） -->
+            <section>
+                <h2>6. 重要ルール（リスク管理）</h2>
+
+                <div class="warning">
+                    <h3>必ず守る 3つのルール</h3>
+                    <ol>
+                        <li><strong>日本円着金確認後に GGドル送金を行う</strong></li>
+                        <li><strong>GGドル着金確認後に 日本円送金を行う</strong></li>
+                        <li><strong>すべての取引をスプレッドシートに記録する</strong></li>
+                    </ol>
+                    <p>不正防止およびトラブル時の証拠として、<strong>必ず記録を残してください。</strong></p>
+                </div>
+
+                <div class="success">
+                    <strong>対策：</strong><br>
+                    ・その場で必ず「着金確認」→「送金」→「シート記入」まで完了させる。<br>
+                    ・レートは「当日の提示レート」に固定し、<strong>途中で変えない</strong>。<br>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
